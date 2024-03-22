@@ -1,0 +1,287 @@
+/* Estilos generales */
+.App {
+  font-family: 'Inter', sans-serif;
+
+}
+
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  margin: 40px;
+
+}
+
+h2{
+  margin: 0;
+  padding: 0;
+}
+
+.logo{
+  height: 54px;
+  width: 54px;
+  float: left;
+  margin-left: 40px;
+}
+
+.titleWebsite{
+  margin: 20px;
+
+}
+
+/* Estilos para el encabezado */
+header {
+  background-color: #0C084C;
+  color: black;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+
+/* Estilos para la barra de navegación */
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+
+}
+
+.navbarLis{
+  position: absolute;
+  right: 40px;
+}
+
+nav ul li {
+  display: inline;
+  margin-left: 60px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.news-sections {
+  flex: 2;
+  margin-right: 20px;
+}
+
+
+.news-section h2 {
+  color: #333;
+}
+
+/* Estilos para las listas de noticias */
+.news-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Estilos para los artículos de noticias */
+.news-item {
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.news-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.news-title {
+  margin-top: 10px;
+}
+
+.news-description {
+  color: #666;
+}
+
+/* Estilos para el aside */
+aside {
+  flex: 1;
+
+}
+
+.ad {
+  margin-bottom: 20px;
+}
+
+.ad img {
+  max-width: 100%;
+}
+
+
+.topStory-item {
+  position: relative;
+  margin-top: 2%;
+  width: 100%;
+  height: 600px;
+  background-size: cover;
+  background-position: initial;
+}
+
+.topStory-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.294); 
+  padding: 20px;
+}
+
+.topStory-title {
+  margin: 0;
+  color: white;
+}
+
+.topStory-description {
+  margin-top: 10px;
+  color: white;
+}
+
+
+
+.view-all-button {
+  color: black;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+
+.newsXs-title{
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.publishedTime{
+  font-weight: 50;
+}
+
+
+
+.website-list {
+  list-style: none;
+  padding: 0;
+}
+
+.website-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px; /* Espacio entre grupos */
+}
+
+
+
+.website-group li {
+  width: calc(50% - 20px); /* Ancho del 50% menos el espacio entre elementos */
+  height: 160px;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.website-group li a {
+  text-decoration: none;
+  color: #333;
+}
+
+
+.website-li{
+  background-color: #0C084C;
+}
+.otherwebsiteimg{
+  width: 60%;
+  margin-left: 20%;
+  height:60%;
+}
+
+.layer1logo{
+  width: 75%;
+  margin-top: 40px;
+}
+
+
+.textCardMoreWebsites{
+  color: white;
+  text-align: center;
+}
+
+
+
+.newsRestContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.image {
+  width: 45%;
+  height: 240px;
+}
+
+.contentNews {
+  width: 60%;
+  padding: 10px;
+}
+
+.newsRestTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  text-decoration: none ;
+}
+
+#uniqueTitleId {
+  text-decoration: none !important;
+}
+
+
+.newsRestDescription {
+  margin-top: 5px;
+  font-size: 1rem;
+}
+
+.layer1div{
+  height: 170px;
+  position: relative;
+  text-align: center;
+}
+
+
+.dots-loader {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.dots-loader > div {
+  width: 10px;
+  height: 10px;
+  background-color: #333;
+  border-radius: 50%;
+  margin: 0 5px;
+  animation: dots-loader-animation 1.5s infinite ease-in-out;
+}
+
+@keyframes dots-loader-animation {
+  0%, 20% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

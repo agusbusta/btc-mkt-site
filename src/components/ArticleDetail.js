@@ -11,7 +11,7 @@ function ArticleDetail() {
     const [error, setError] = useState('');
   
     useEffect(() => {
-      fetch(`${config.BASE_URL}/api/get/article?article_id=${articleId}`)
+      fetch(`https://aialpha.ngrok.io/api/get/article?article_id=${articleId}`)
         .then((response) => {
           if (!response.ok) {
             throw new Error('Failed to fetch article details');

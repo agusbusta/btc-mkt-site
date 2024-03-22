@@ -20,7 +20,8 @@ function App() {
 
   const fetchNews = () => {
     // Fetch additional news from the API endpoint
-    fetch(`${config.BASE_URL}/api/get/latest_news?coin_bot_id=1&limit=17`)
+    
+    fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=1&limit=17`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch additional news");

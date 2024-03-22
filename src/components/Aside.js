@@ -9,7 +9,7 @@ function Aside() {
   const coinBotId = 1;
 
   useEffect(() => {
-    fetch(`${config.BASE_URL}/api/get/latest_news?coin_bot_id=${coinBotId}&limit=4`)
+    fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinBotId}&limit=4`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch latest news");

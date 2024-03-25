@@ -40,21 +40,20 @@ function ArticleDetail() {
     const summary = article.summary.substring(summaryIndex);
     
     return (
-      <div style={{ display: 'flex', marginRight: '2%' }}>
-        <div style={{ flex: '0 0 70%', marginRight: '2%' }}>
-        <img style={{ width: '100%', height: '400px' }} src={`https://apparticleimages.s3.us-east-2.amazonaws.com/${article.article_id}.jpg`} />
-          <h1>{article.title}</h1>
-          <p style={{ fontWeight: '150' }}>Published on {formattedDate}</p>
-          <p>{summary}</p>
+      <div className="article-container">
+        <div className="article-content">
+          <img className="article-image" src={`https://apparticleimages.s3.us-east-2.amazonaws.com/101.jpg`} alt={article.title} />
+          <div className="article-details">
+            <h1>{article.title}</h1>
+            <p className="published-date">Published on {formattedDate}</p>
+            <p className="article-summary">{summary}</p>
+          </div>
         </div>
-        <div style={{ flex: '0 0 30%' , marginTop: '-20px'}}>
+        <aside className="more-news-aside">
           <MoreNews />
-        </div>
+        </aside>
       </div>
     );
-  }
-  
+}
+
 export default ArticleDetail;
-
-
-

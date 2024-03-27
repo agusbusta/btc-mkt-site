@@ -45,10 +45,10 @@ function TopStoryItem() {
           }}
         >
           <div
-            className="topStory-item"
+            className="topStory-image"
             style={{
               backgroundImage: topStory
-                ? `url(https://apparticleimages.s3.us-east-2.amazonaws.com/${topStory.article_id}.jpg)`
+                ? `url(https://mktnewsposters.s3.us-east-2.amazonaws.com/${topStory.article_id}.jpg)`
                 : "",
             }}
           >

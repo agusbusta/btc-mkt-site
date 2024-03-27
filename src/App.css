@@ -110,14 +110,15 @@ aside {
   max-width: 100%;
 }
 
-.topStory-item {
+.topStory-image {
   position: relative;
   margin-top: 2%;
   width: 100%;
-  height: 600px;
+  height: 500px;
   background-size: cover;
-  background-position: initial;
+  background-position: center; /* Añadido para centrar la imagen verticalmente */
 }
+
 
 .topStory-details {
   position: absolute;
@@ -279,8 +280,7 @@ aside {
 
 .article-image {
   width: 100%;
-  height: 400px;
-
+  height: 500px;
 }
 
 

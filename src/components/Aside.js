@@ -3,28 +3,33 @@ import NewsItemXs from "./NewsItemXs";
 import config from "../config";
 import MoreNews from "./MoreNews";
 
-function Aside() {
+function Aside({ coinIds }) {
   const [latestNews, setLatestNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const coinBotId = 1;
 
   useEffect(() => {
-    fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinBotId}&limit=4`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch latest news");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setLatestNews(data.articles.slice(1, 4));
+    if (coinIds.length > 0) { // Verificar si hay algún ID antes de realizar la solicitud de fetch
+      fetchLatestNews();
+      setLoading(false); 
+    } else {
+      setLoading(false); // Si no hay ningún ID, establecer loading en falso
+    }
+  }, [coinIds]); 
+
+  const fetchLatestNews = () => {
+    setLoading(true);
+    Promise.all(coinIds.map(coinId => fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=4`)))
+      .then(responses => Promise.all(responses.map(response => response.json())))
+      .then(dataArray => {
+        const allNews = dataArray.flatMap(data => data.articles.slice(1, 4));
+        setLatestNews(allNews);
         setLoading(false);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("Error fetching latest news:", error);
         setLoading(false);
       });
-  }, [coinBotId]);
+  };
 
   return (
     <aside>

@@ -5,79 +5,94 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 import config from "../../src/config";
 
-function TopStoryItem() {
-  const [topStory, setTopStory] = useState(null);
+function TopStoryItem({ coinIds }) {
+  const [topStories, setTopStories] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0); // Estado para mantener el índice de la historia actualmente visible
   const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false); // Nuevo estado para controlar si las historias principales ya han sido cargadas
 
   useEffect(() => {
-    fetchLatestNews();
-  }, []);
-
-  const fetchLatestNews = () => {
-    setLoading(true);
-    fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=1&limit=1`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch the latest news");
+    if (!loaded) {
+      setLoading(true);
+      const fetchTopStories = async () => {
+        const fetchedTopStories = [];
+        for (const coinId of coinIds) {
+          try {
+            const response = await fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=1`);
+            if (!response.ok) {
+              throw new Error("Failed to fetch top stories");
+            }
+            const data = await response.json();
+            fetchedTopStories.push(data.articles[0]);
+          } catch (error) {
+            console.error("Error fetching top stories:", error);
+          }
         }
-        return response.json();
-      })
-      .then((data) => {
-        setTopStory(data.articles[0]);
+        setTopStories(fetchedTopStories);
         setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching the latest news:", error);
-        setLoading(false);
-      });
-  };
+        setLoaded(true);
+      };
+
+      fetchTopStories();
+    }
+  }, [coinIds, loaded]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % topStories.length); // Cambiar al siguiente índice de forma circular
+    }, 5000); // Cambiar cada 5 segundos (ajusta este valor según tus necesidades)
+
+    return () => clearInterval(interval);
+  }, [topStories]);
 
   return (
     <div>
-      {topStory && (
-        <Link
-          to={`/article/${topStory.article_id}`}
-          style={{
-            textDecoration: "none",
-            color: "black",
-            fontWeight: "bold",
-            fontSize: "20px",
-          }}
-        >
-          <div
-            className="topStory-image"
-            style={{
-              backgroundImage: topStory
-                ? `url(https://mktnewsposters.s3.us-east-2.amazonaws.com/${topStory.article_id}.jpg)`
-                : "",
-            }}
-          >
-            {loading ? (
-              <p>Loading top story...</p>
-            ) : (
-              <div className="topStory-details">
-                <p className="topStory-description">
-                  <FontAwesomeIcon
-                    icon={faCalendarAlt}
-                    style={{ marginRight: "5px", opacity: 0.5 }}
-                  />
-                  Published {moment(topStory.created_at).format("MM-DD-YYYY")}{" "}
-                  <FontAwesomeIcon
-                    icon={faClock}
-                    style={{ marginRight: "5px", opacity: 0.5 }}
-                  />
-                  {moment(topStory.created_at).format("HH:mm [EST]")}
-                </p>
-                <h2 className="topStory-title">{topStory.title}</h2>
-                <p className="topStory-description">{topStory.description}</p>
+      {loading ? (
+        <p>Loading top stories...</p>
+      ) : (
+        <div>
+          {/* Renderizar solo la historia principal actualmente visible */}
+          {topStories.length > 0 && (
+            <Link
+              to={`/article/${topStories[currentIndex].article_id}`}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "20px",
+              }}
+            >
+              <div
+                className="topStory-image"
+                style={{
+                  backgroundImage: topStories[currentIndex]
+                    ? `url(https://mktnewsposters.s3.us-east-2.amazonaws.com/${topStories[currentIndex].article_id}.jpg)`
+                    : "",
+                }}
+              >
+                <div className="topStory-details">
+                  <p className="topStory-description">
+                    <FontAwesomeIcon
+                      icon={faCalendarAlt}
+                      style={{ marginRight: "5px", opacity: 0.5 }}
+                    />
+                    Published {moment(topStories[currentIndex].created_at).format("MM-DD-YYYY")}{" "}
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      style={{ marginRight: "5px", opacity: 0.5 }}
+                    />
+                    {moment(topStories[currentIndex].created_at).format("HH:mm [EST]")}
+                  </p>
+                  <h2 className="topStory-title">{topStories[currentIndex].title}</h2>
+                  <p className="topStory-description">{topStories[currentIndex].description}</p>
+                </div>
               </div>
-            )}
-          </div>
-        </Link>
+            </Link>
+          )}
+        </div>
       )}
     </div>
   );
-  
 }
 
 export default TopStoryItem;

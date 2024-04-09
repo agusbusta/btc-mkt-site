@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import NewsItem from './NewsItem';
+import React, { useState, useEffect } from "react";
+import NewsItem from "./NewsItem";
 
 function NewsSection({ coinIds }) {
-  const [news, setNews] = useState([]); 
+  const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -11,17 +11,66 @@ function NewsSection({ coinIds }) {
 
   const fetchNews = () => {
     setLoading(true);
-    Promise.all(coinIds.map(coinId => fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=10`))) 
-      .then(responses => Promise.all(responses.map(response => response.json())))
-      .then(dataArray => {
-        const allNews = dataArray.flatMap(data => data.articles);
-        setNews(allNews); 
+    Promise.all(
+      coinIds.map((coinId) =>
+        fetch(
+          `https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=10`
+        )
+      )
+    )
+      .then((responses) =>
+        Promise.all(responses.map((response) => response.json()))
+      )
+      .then((dataArray) => {
+        const allNews = dataArray.flatMap((data) => data.articles);
+        // Agrupar las noticias por tópico
+        const groupedNews = groupNewsByTopic(allNews);
+        // Mezclar intercaladamente las noticias de cada tópico
+        const mixedNews = mixNews(groupedNews);
+        setNews(mixedNews);
         setLoading(false);
       })
-      .catch(error => {
-        console.error('Error fetching the latest news:', error);
+      .catch((error) => {
+        console.error("Error fetching the latest news:", error);
         setLoading(false);
       });
+  };
+
+  // Función para agrupar las noticias por tópico
+  const groupNewsByTopic = (news) => {
+    const grouped = {};
+    news.forEach((item) => {
+      const topic = item.topic; // Se asume que hay una propiedad 'topic' en cada noticia
+      if (!grouped[topic]) {
+        grouped[topic] = [];
+      }
+      grouped[topic].push(item);
+    });
+    return grouped;
+  };
+
+  // Función para mezclar intercaladamente las noticias de cada tópico
+  const mixNews = (groupedNews) => {
+    const mixedNews = [];
+    let maxCount = 0;
+    // Encontrar la cantidad máxima de noticias en un solo tópico
+    for (const topic in groupedNews) {
+      if (groupedNews.hasOwnProperty(topic)) {
+        maxCount = Math.max(maxCount, groupedNews[topic].length);
+      }
+    }
+    // Mezclar intercaladamente
+    for (let i = 0; i < maxCount; i++) {
+      for (const topic in groupedNews) {
+        if (groupedNews.hasOwnProperty(topic)) {
+          const newsForTopic = groupedNews[topic];
+          if (newsForTopic[i]) {
+            mixedNews.push(newsForTopic[i]);
+          }
+        }
+      }
+    }
+    return mixedNews;
   };
 
   return (
@@ -31,7 +80,7 @@ function NewsSection({ coinIds }) {
       <div>
         <h2>All News</h2>
         <hr />
-        {news.map((item, index) => (
+        {news.slice(6).map((item, index) => (
           <NewsItem
             key={index}
             title={item.title}

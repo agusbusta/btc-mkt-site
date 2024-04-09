@@ -8,24 +8,32 @@ function Aside({ coinIds }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (coinIds.length > 0) { // Verificar si hay algún ID antes de realizar la solicitud de fetch
+    if (coinIds.length > 0) {
       fetchLatestNews();
-      setLoading(false); 
+      setLoading(false);
     } else {
-      setLoading(false); // Si no hay ningún ID, establecer loading en falso
+      setLoading(false);
     }
-  }, [coinIds]); 
+  }, [coinIds]);
 
   const fetchLatestNews = () => {
     setLoading(true);
-    Promise.all(coinIds.map(coinId => fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=4`)))
-      .then(responses => Promise.all(responses.map(response => response.json())))
-      .then(dataArray => {
-        const allNews = dataArray.flatMap(data => data.articles.slice(1, 4));
+    Promise.all(
+      coinIds.map((coinId) =>
+        fetch(
+          `https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=4`
+        )
+      )
+    )
+      .then((responses) =>
+        Promise.all(responses.map((response) => response.json()))
+      )
+      .then((dataArray) => {
+        const allNews = dataArray.flatMap((data) => data.articles.slice(1, 4));
         setLatestNews(allNews);
         setLoading(false);
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("Error fetching latest news:", error);
         setLoading(false);
       });
@@ -55,7 +63,7 @@ function Aside({ coinIds }) {
           <p>No news available</p>
         ) : (
           <div className="ad">
-            {latestNews.map((item) => (
+            {latestNews.slice(3, 6).map((item) => (
               <NewsItemXs
                 key={item.article_id}
                 articleId={item.article_id}

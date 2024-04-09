@@ -80,7 +80,7 @@ function NewsSection({ coinIds }) {
       <div>
         <h2>All News</h2>
         <hr />
-        {news.slice(6).map((item, index) => (
+        {news.slice(6,30).map((item, index) => (
           <NewsItem
             key={index}
             title={item.title}

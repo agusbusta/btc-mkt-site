@@ -1,20 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import NewsItemXs from "./NewsItemXs";
-import config from "../config";
+// Asegúrate de que este import se esté utilizando o puedes quitarlo si no es necesario.
 import MoreNews from "./MoreNews";
 
 function Aside({ coinIds }) {
   const [latestNews, setLatestNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const lastCoinIdsRef = useRef(''); // Inicializamos con una cadena vacía
 
   useEffect(() => {
-    if (coinIds.length > 0) {
+    // Convertimos los coinIds a una cadena para la comparación
+    const coinIdsString = coinIds.join(',');
+    if (coinIds.length > 0 && lastCoinIdsRef.current !== coinIdsString) {
       fetchLatestNews();
-      setLoading(false);
+      lastCoinIdsRef.current = coinIdsString; // Almacenamos los coinIds actuales para comparaciones futuras
     } else {
       setLoading(false);
     }
-  }, [coinIds]);
+  }, [coinIds]); // Depende de coinIds
 
   const fetchLatestNews = () => {
     setLoading(true);
@@ -37,6 +40,30 @@ function Aside({ coinIds }) {
         console.error("Error fetching latest news:", error);
         setLoading(false);
       });
+  };
+
+  const renderNewsItems = () => {
+    if (coinIds.length > 1) {
+      // Si hay más de un ID, muestra un rango específico de noticias
+      return latestNews.slice(3, 6).map((item) => (
+        <NewsItemXs
+          key={item.article_id}
+          articleId={item.article_id}
+          publishedTime={item.created_at}
+          title={item.title}
+        />
+      ));
+    } else {
+      // Si solo hay un ID, muestra todas las noticias
+      return latestNews.map((item) => (
+        <NewsItemXs
+          key={item.article_id}
+          articleId={item.article_id}
+          publishedTime={item.created_at}
+          title={item.title}
+        />
+      ));
+    }
   };
 
   return (
@@ -63,14 +90,7 @@ function Aside({ coinIds }) {
           <p>No news available</p>
         ) : (
           <div className="ad">
-            {latestNews.slice(3, 6).map((item) => (
-              <NewsItemXs
-                key={item.article_id}
-                articleId={item.article_id}
-                publishedTime={item.created_at}
-                title={item.title}
-              />
-            ))}
+            {renderNewsItems()}
           </div>
         )}
 

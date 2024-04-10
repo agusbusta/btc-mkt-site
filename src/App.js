@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import NewsSection from "./components/NewsSection";
 import Aside from "./components/Aside";
@@ -15,10 +15,8 @@ function App() {
         <Header />
         <main className="main-content">
           <Routes>
-            <Route
-              path="/:coinId"
-              element={<MainContent />}
-            />
+            <Route path="/" element={<Navigate to="/1" />} />
+            <Route path="/:coinId" element={<MainContent />} />
             <Route path="/article/:articleId" element={<ArticleDetail />} /> 
           </Routes>
         </main>
@@ -27,6 +25,8 @@ function App() {
     </Router>
   );
 }
+
+
 function MainContent() {
   const [additionalNews, setAdditionalNews] = useState([]);
   const [loading, setLoading] = useState(true);

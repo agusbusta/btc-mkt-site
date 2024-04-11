@@ -9,6 +9,7 @@ import xpayments from "../assets/xpayments.png";
 import oracles from "../assets/oracles.png";
 import ai from "../assets/ai.png";
 import defi from "../assets/defi.png";
+import ad2 from "../assets/Ads-02.jpg";
 
 function MoreNews() {
   return (
@@ -37,6 +38,9 @@ function MoreNews() {
               </a>
             </li>
           </div>
+          <div className="ad2container">
+            <img src={ad2} className="ad2" />
+          </div>
           <div className="website-entire">
             <li className="website-li layer0div">
               <a href="https://www.allcryptonews.co/7,8,9">
@@ -45,8 +49,7 @@ function MoreNews() {
               </a>
             </li>
           </div>
-          <br>
-          </br>
+          <br></br>
           <div className="website-entire">
             <li className="website-li layer1div">
               <a href="https://www.allcryptonews.co/10,11,12,13,14,15">
@@ -56,7 +59,7 @@ function MoreNews() {
             </li>
           </div>
           <br></br>
-          
+
           <div className="website-group">
             <li className="website-li">
               <a href="https://www.allcryptonews.co/17,18,37">
@@ -85,18 +88,18 @@ function MoreNews() {
             </li>
             <li className="website-li">
               <a href="https://www.allcryptonews.co/19,20,21">
-                <img src={oracles} className="otherwebsiteimgp2" alt="Layer 0" />
+                <img
+                  src={oracles}
+                  className="otherwebsiteimgp2"
+                  alt="Layer 0"
+                />
               </a>
             </li>
           </div>
           <div className="website-group">
             <li className="website-li">
               <a href="https://www.allcryptonews.co/25,26,27,28,29,30,31,32,33">
-                <img
-                  src={defi}
-                  className="otherwebsiteimgp2"
-                  alt="Ethereum"
-                />
+                <img src={defi} className="otherwebsiteimgp2" alt="Ethereum" />
               </a>
             </li>
             <li className="website-li">

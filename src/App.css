@@ -114,9 +114,10 @@ aside {
   position: relative;
   margin-top: 2%;
   width: 100%;
-  height: 500px;
+  height: 600px;
   background-size: cover;
-  background-position: center; /* Añadido para centrar la imagen verticalmente */
+  background-repeat: no-repeat;
+
 }
 
 
@@ -227,8 +228,9 @@ aside {
 }
 
 .image {
-  width: 45%;
+  width: 40%;
   height: 240px;
+  
 }
 
 .contentNews {
@@ -321,6 +323,36 @@ aside {
   flex: 0 0 30%;
   margin-top: -25px;
 }
+
+.ad1container{
+  text-align: center;
+}
+
+.ad1{
+  height: 20%;
+  width: 50%;
+}
+
+.ad2container{
+  text-align: center;
+}
+
+.ad2{
+  height: 20%;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.ad3container{
+  text-align: center;
+}
+
+.ad3{
+  height: 20%;
+  width: 100%;
+
+}
+
 
 /* responsive STYLES. */
 

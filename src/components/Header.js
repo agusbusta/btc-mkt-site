@@ -1,8 +1,11 @@
 import React from "react";
 import logo from "../assets/LogoCS.png";
+import ad1 from "../assets/Ads_01.jpg";
 
 function Header() {
   return (
+    <>
+    
     <header>
       <nav
         style={{
@@ -37,6 +40,11 @@ function Header() {
         </ul>
       </nav>
     </header>
+    <br></br>
+    <div className="ad1container">
+    <img src={ad1} className="ad1" />
+    </div>
+    </>
   );
 }
 

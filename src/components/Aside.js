@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
 import NewsItemXs from "./NewsItemXs";
-// Asegúrate de que este import se esté utilizando o puedes quitarlo si no es necesario.
 import MoreNews from "./MoreNews";
+import ad3 from "../assets/Ads-03.jpg";
 
 function Aside({ coinIds }) {
   const [latestNews, setLatestNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const lastCoinIdsRef = useRef(''); // Inicializamos con una cadena vacía
+  const lastCoinIdsRef = useRef("");
 
   useEffect(() => {
-    // Convertimos los coinIds a una cadena para la comparación
-    const coinIdsString = coinIds.join(',');
+    const coinIdsString = coinIds.join(",");
     if (coinIds.length > 0 && lastCoinIdsRef.current !== coinIdsString) {
       fetchLatestNews();
-      lastCoinIdsRef.current = coinIdsString; // Almacenamos los coinIds actuales para comparaciones futuras
+      lastCoinIdsRef.current = coinIdsString;
     } else {
       setLoading(false);
     }
-  }, [coinIds]); // Depende de coinIds
+  }, [coinIds]);
 
   const fetchLatestNews = () => {
     setLoading(true);
@@ -45,24 +44,43 @@ function Aside({ coinIds }) {
   const renderNewsItems = () => {
     if (coinIds.length > 1) {
       // Si hay más de un ID, muestra un rango específico de noticias
-      return latestNews.slice(3, 6).map((item) => (
-        <NewsItemXs
-          key={item.article_id}
-          articleId={item.article_id}
-          publishedTime={item.created_at}
-          title={item.title}
-        />
+      return latestNews.slice(3, 6).map((item, index) => (
+        <React.Fragment key={item.article_id}>
+          {index === 1 && (
+            <div className="ad3container">
+              <img src={ad3} className="ad3" />
+              <hr></hr>
+            </div>
+          )}
+          <NewsItemXs
+            articleId={item.article_id}
+            publishedTime={item.created_at}
+            title={item.title}
+          />
+        </React.Fragment>
       ));
     } else {
       // Si solo hay un ID, muestra todas las noticias
-      return latestNews.map((item) => (
-        <NewsItemXs
-          key={item.article_id}
-          articleId={item.article_id}
-          publishedTime={item.created_at}
-          title={item.title}
-        />
-      ));
+      return (
+        <>
+          {latestNews.map((item, index) => (
+            <React.Fragment key={item.article_id}>
+              {index === 1 && (
+                <div className="ad3container">
+                  <img src={ad3} className="ad3" />
+                  <hr></hr>
+                </div>
+                
+              )}
+              <NewsItemXs
+                articleId={item.article_id}
+                publishedTime={item.created_at}
+                title={item.title}
+              />
+            </React.Fragment>
+          ))}
+        </>
+      );
     }
   };
 
@@ -89,25 +107,9 @@ function Aside({ coinIds }) {
         ) : latestNews.length === 0 ? (
           <p>No news available</p>
         ) : (
-          <div className="ad">
-            {renderNewsItems()}
-          </div>
+          <div className="ad">{renderNewsItems()}</div>
         )}
 
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <span
-            style={{
-              margin: "10px",
-              border: "1px solid black",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "50%",
-            }}
-          >
-            AD AI ALPHA
-          </span>
-        </div>
         <br />
         <MoreNews />
       </div>

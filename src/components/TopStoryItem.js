@@ -18,7 +18,9 @@ function TopStoryItem({ coinIds }) {
         const fetchedTopStories = [];
         for (const coinId of coinIds) {
           try {
-            const response = await fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=1`);
+            const response = await fetch(
+              `https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=1`
+            );
             if (!response.ok) {
               throw new Error("Failed to fetch top stories");
             }
@@ -76,15 +78,24 @@ function TopStoryItem({ coinIds }) {
                       icon={faCalendarAlt}
                       style={{ marginRight: "5px", opacity: 0.5 }}
                     />
-                    Published {moment(topStories[currentIndex].created_at).format("MM-DD-YYYY")}{" "}
+                    Published{" "}
+                    {moment(topStories[currentIndex].created_at).format(
+                      "MM-DD-YYYY"
+                    )}{" "}
                     <FontAwesomeIcon
                       icon={faClock}
                       style={{ marginRight: "5px", opacity: 0.5 }}
                     />
-                    {moment(topStories[currentIndex].created_at).format("HH:mm [EST]")}
+                    {moment(topStories[currentIndex].created_at).format(
+                      "HH:mm [EST]"
+                    )}
                   </p>
-                  <h2 className="topStory-title">{topStories[currentIndex].title}</h2>
-                  <p className="topStory-description">{topStories[currentIndex].description}</p>
+                  <h2 className="topStory-title">
+                    {topStories[currentIndex].title}
+                  </h2>
+                  <p className="topStory-description">
+                    {topStories[currentIndex].description}
+                  </p>
                 </div>
               </div>
             </Link>

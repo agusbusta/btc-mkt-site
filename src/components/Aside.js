@@ -1,12 +1,44 @@
 import React, { useState, useEffect, useRef } from "react";
 import NewsItemXs from "./NewsItemXs";
 import MoreNews from "./MoreNews";
-import ad3 from "../assets/Ads-03.jpg";
 
 function Aside({ coinIds }) {
   const [latestNews, setLatestNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const lastCoinIdsRef = useRef("");
+  const [adImage, setAdImage] = useState("ALPHA50.jpg"); // Estado inicial para la imagen
+
+  useEffect(() => {
+    const path = window.location.pathname;
+    const pathIds = path.split("/")[1];
+    console.log(pathIds)
+    updateAdImage(pathIds); 
+
+    const coinIdsString = coinIds.join(",");
+    if (coinIds.length > 0 && lastCoinIdsRef.current !== coinIdsString) {
+      fetchLatestNews();
+      lastCoinIdsRef.current = coinIdsString;
+    } else {
+      setLoading(false);
+    }
+  }, [coinIds]);
+
+  // Función para actualizar la imagen de anuncio basada en los IDs de la URL
+  const updateAdImage = (pathIds) => {
+    const idMapping = {
+      1: "ALPHA50.jpg",
+      2: "2ALPHA50.jpg",
+      "4,5,6": "3ALPHA50.jpg",
+      "7,8,9": "4ALPHA50.jpg",
+      "10,11,12,13,14,15": "5ALPHA50.jpg",
+      "16,17,18": "6ALPHA50.jpg",
+      "19,20,21": "7ALPHA50.jpg",
+      "21,22,23": "8ALPHA50.jpg",
+      "24,25,26,27,28,29,30,31,32,33": "9ALPHA50.jpg",
+      "34,35,36": "10ALPHA50.jpg",
+    };
+    setAdImage(idMapping[pathIds] || "ALPHA50.jpg"); // Imagen por defecto si no coincide
+  };
 
   useEffect(() => {
     const coinIdsString = coinIds.join(",");
@@ -48,7 +80,8 @@ function Aside({ coinIds }) {
         <React.Fragment key={item.article_id}>
           {index === 1 && (
             <div className="ad3container">
-              <img src={ad3} className="ad3" />
+              <img src={require(`../assets/${adImage}`)} className="ad3" />{" "}
+              {/* Uso dinámico del src */}
               <hr></hr>
             </div>
           )}
@@ -60,17 +93,15 @@ function Aside({ coinIds }) {
         </React.Fragment>
       ));
     } else {
-      // Si solo hay un ID, muestra todas las noticias
       return (
         <>
           {latestNews.map((item, index) => (
             <React.Fragment key={item.article_id}>
               {index === 1 && (
                 <div className="ad3container">
-                  <img src={ad3} className="ad3" />
+                  <img src={require(`../assets/${adImage}`)} className="ad3" />{" "}
                   <hr></hr>
                 </div>
-                
               )}
               <NewsItemXs
                 articleId={item.article_id}

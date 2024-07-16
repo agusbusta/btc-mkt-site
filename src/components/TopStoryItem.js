@@ -19,13 +19,13 @@ function TopStoryItem({ coinIds }) {
         for (const coinId of coinIds) {
           try {
             const response = await fetch(
-              `https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=1`
+              `https://newsbotv2.ngrok.io/get_articles?bot_id=${coinId}&limit=1`
             );
             if (!response.ok) {
               throw new Error("Failed to fetch top stories");
             }
             const data = await response.json();
-            fetchedTopStories.push(data.articles[0]);
+            fetchedTopStories.push(data.data[0]);
           } catch (error) {
             console.error("Error fetching top stories:", error);
           }
@@ -56,7 +56,7 @@ function TopStoryItem({ coinIds }) {
           {/* Renderizar solo la historia principal actualmente visible */}
           {topStories.length > 0 && (
             <Link
-              to={`/article/${topStories[currentIndex].article_id}`}
+              to={`/article/${topStories[currentIndex].id}`}
               style={{
                 textDecoration: "none",
                 color: "black",
@@ -68,7 +68,7 @@ function TopStoryItem({ coinIds }) {
                 className="topStory-image"
                 style={{
                   backgroundImage: topStories[currentIndex]
-                    ? `url(https://mktnewsposters.s3.us-east-2.amazonaws.com/${topStories[currentIndex].article_id}.jpg)`
+                    ? `url(https://sitesnewsposters.s3.us-east-2.amazonaws.com/${topStories[currentIndex].image})`
                     : "",
                 }}
               >

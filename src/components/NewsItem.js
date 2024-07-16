@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 
-function NewsItem({ title, description, publishedTime, articleId }) {
+function NewsItem({ title, imageUrl, publishedTime, articleId }) {
+  console.log("articleId: ", articleId)
   return (
     <>
       <div className="newsRestContainer" id="uniqueTitleId">
@@ -35,7 +36,7 @@ function NewsItem({ title, description, publishedTime, articleId }) {
           </Link>
         </div>
         <img
-          src={`https://mktnewsposters.s3.us-east-2.amazonaws.com/${articleId}.jpg`}
+          src={imageUrl}
           alt="News"
           className="image"
         />

@@ -11,7 +11,8 @@ function ArticleDetail() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`https://aialpha.ngrok.io/api/get/article?article_id=${articleId}`)
+    console.log("el que llega nashe es ", articleId)
+    fetch(`https://newsbotv2.ngrok.io/api/get/article?article_id=${articleId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch article details");
@@ -19,7 +20,7 @@ function ArticleDetail() {
         return response.json();
       })
       .then((data) => {
-        setArticle(data.article);
+        setArticle(data.data);
         setLoading(false);
       })
       .catch((error) => {
@@ -32,22 +33,22 @@ function ArticleDetail() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!article) return <div>Article not found.</div>;
-
+  console.log("article", article)
   // Formatea la fecha utilizando moment
   const formattedDate = moment(article.created_at).format(
     "MM-DD-YYYY [at] HH:mm [EST]"
   );
   const summaryIndex =
-    article.summary.indexOf("Summary: -") + "Summary: -".length;
+    article.content.indexOf("Summary: -") + "Summary: -".length;
   // Obtener el resumen
-  const summary = article.summary.substring(summaryIndex);
+  const summary = article.content.substring(summaryIndex);
 
   return (
     <div className="article-container">
       <div className="article-content">
         <img
           className="article-image"
-          src={`https://mktnewsposters.s3.us-east-2.amazonaws.com/${articleId}.jpg`}
+          src={`https://sitesnewsposters.s3.us-east-2.amazonaws.com/${article.image}`}
           alt={article.title}
         />
         <div className="article-details">

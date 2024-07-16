@@ -11,7 +11,6 @@ function Aside({ coinIds }) {
   useEffect(() => {
     const path = window.location.pathname;
     const pathIds = path.split("/")[1];
-    console.log(pathIds)
     updateAdImage(pathIds); 
 
     const coinIdsString = coinIds.join(",");
@@ -55,7 +54,7 @@ function Aside({ coinIds }) {
     Promise.all(
       coinIds.map((coinId) =>
         fetch(
-          `https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=4`
+          `https://newsbotv2.ngrok.io/get_articles?bot_id=${coinId}&limit=4`
         )
       )
     )
@@ -63,7 +62,7 @@ function Aside({ coinIds }) {
         Promise.all(responses.map((response) => response.json()))
       )
       .then((dataArray) => {
-        const allNews = dataArray.flatMap((data) => data.articles.slice(1, 4));
+        const allNews = dataArray.flatMap((data) => data.data.slice(1, 4));
         setLatestNews(allNews);
         setLoading(false);
       })
@@ -77,7 +76,7 @@ function Aside({ coinIds }) {
     if (coinIds.length > 1) {
       // Si hay más de un ID, muestra un rango específico de noticias
       return latestNews.slice(3, 6).map((item, index) => (
-        <React.Fragment key={item.article_id}>
+        <React.Fragment key={item.id}>
           {index === 1 && (
             <div className="ad3container">
               <img src={require(`../assets/${adImage}`)} className="ad3" />{" "}
@@ -86,7 +85,7 @@ function Aside({ coinIds }) {
             </div>
           )}
           <NewsItemXs
-            articleId={item.article_id}
+            articleId={item.id}
             publishedTime={item.created_at}
             title={item.title}
           />
@@ -96,7 +95,7 @@ function Aside({ coinIds }) {
       return (
         <>
           {latestNews.map((item, index) => (
-            <React.Fragment key={item.article_id}>
+            <React.Fragment key={item.id}>
               {index === 1 && (
                 <div className="ad3container">
                   <img src={require(`../assets/${adImage}`)} className="ad3" />{" "}
@@ -104,7 +103,7 @@ function Aside({ coinIds }) {
                 </div>
               )}
               <NewsItemXs
-                articleId={item.article_id}
+                articleId={item.id}
                 publishedTime={item.created_at}
                 title={item.title}
               />

@@ -14,7 +14,7 @@ function NewsSection({ coinIds }) {
     Promise.all(
       coinIds.map((coinId) =>
         fetch(
-          `https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=10`
+          `https://newsbotv2.ngrok.io/get_articles?bot_id=${coinId}&limit=30`
         )
       )
     )
@@ -22,7 +22,7 @@ function NewsSection({ coinIds }) {
         Promise.all(responses.map((response) => response.json()))
       )
       .then((dataArray) => {
-        const allNews = dataArray.flatMap((data) => data.articles);
+        const allNews = dataArray.flatMap((data) => data.data);
         // Agrupar las noticias por tópico
         const groupedNews = groupNewsByTopic(allNews);
         // Mezclar intercaladamente las noticias de cada tópico
@@ -72,7 +72,7 @@ function NewsSection({ coinIds }) {
     }
     return mixedNews;
   };
-
+  console.log("news: ", news)
   return (
     <section className="news-section">
       <br />
@@ -85,9 +85,9 @@ function NewsSection({ coinIds }) {
             key={index}
             title={item.title}
             description={item.description}
-            imageUrl={`https://apparticleimages.s3.us-east-2.amazonaws.com/${item.article_id}.jpg`}
+            imageUrl={`https://sitesnewsposters.s3.us-east-2.amazonaws.com/${item.image}`}
             publishedTime={item.created_at}
-            articleId={item.article_id}
+            articleId={item.id}
           />
         ))}
       </div>

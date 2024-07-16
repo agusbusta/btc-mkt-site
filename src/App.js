@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from "react-router-dom";
 import Header from "./components/Header";
 import NewsSection from "./components/NewsSection";
 import Aside from "./components/Aside";
@@ -26,34 +26,40 @@ function App() {
   );
 }
 
-
 function MainContent() {
+  const { coinId } = useParams();
   const [additionalNews, setAdditionalNews] = useState([]);
   const [loading, setLoading] = useState(true);
-  const coinId = window.location.pathname.split('/')[1];
-  const coinIds = coinId.length > 1 ? coinId.split(',') : [coinId]; 
+  const coinIds = coinId ? coinId.split(',') : [];
 
   useEffect(() => {
-    fetchNews(coinIds);
-  }, [coinIds]);
+    if (coinIds.length > 0) {
+      fetchNews(coinIds);
+    }
+  }, [coinId]); // Solo se ejecuta cuando coinId cambia
 
-  const fetchNews = (coinIds) => {
-    const formattedCoinIds = coinIds.join(','); 
-    fetch(`https://aialpha.ngrok.io/api/get/latest_news?coin_bot_id=${formattedCoinIds}&limit=17`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch additional news");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setAdditionalNews(data.articles);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching additional news:", error);
-        setLoading(false);
-      });
+  const fetchNews = async (coinIds) => {
+    setLoading(true);
+    try {
+      const fetchPromises = coinIds.map(id => 
+        fetch(`https://newsbotv2.ngrok.io/get_articles?bot_id=${id}&limit=17`)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to fetch additional news");
+            }
+            return response.json();
+          })
+          .then((data) => data.articles)
+      );
+
+      const articlesArray = await Promise.all(fetchPromises);
+      const allArticles = articlesArray.flat();
+      setAdditionalNews(allArticles);
+    } catch (error) {
+      console.error("Error fetching additional news:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,6 +86,5 @@ function MainContent() {
     </>
   );
 }
-
 
 export default App;

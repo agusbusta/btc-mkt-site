@@ -54,7 +54,7 @@ function Aside({ coinIds }) {
     Promise.all(
       coinIds.map((coinId) =>
         fetch(
-          `https://newsbotv2.ngrok.io/get_articles?bot_id=${coinId}&limit=4`
+          `https://newsbotv2.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=4`
         )
       )
     )
@@ -72,6 +72,7 @@ function Aside({ coinIds }) {
       });
   };
 
+  console.log("coinID:", coinIds)
   const renderNewsItems = () => {
     if (coinIds.length > 1) {
       // Si hay más de un ID, muestra un rango específico de noticias

@@ -19,7 +19,7 @@ function TopStoryItem({ coinIds }) {
         for (const coinId of coinIds) {
           try {
             const response = await fetch(
-              `https://newsbotv2.ngrok.io/get_articles?bot_id=${coinId}&limit=1`
+              `https://newsbotv2.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=1`
             );
             if (!response.ok) {
               throw new Error("Failed to fetch top stories");

@@ -14,7 +14,7 @@ function NewsSection({ coinIds }) {
     Promise.all(
       coinIds.map((coinId) =>
         fetch(
-          `https://newsbotv2.ngrok.io/get_articles?bot_id=${coinId}&limit=30`
+          `https://newsbotv2.ngrok.io/api/get/latest_news?coin_bot_id=${coinId}&limit=12`
         )
       )
     )
@@ -72,7 +72,6 @@ function NewsSection({ coinIds }) {
     }
     return mixedNews;
   };
-  console.log("news: ", news)
   return (
     <section className="news-section">
       <br />

@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendarAlt, faClock } from "@fortawesome/free-solid-svg-icons";
 
 function NewsItem({ title, imageUrl, publishedTime, articleId }) {
-  console.log("articleId: ", articleId)
   return (
     <>
       <div className="newsRestContainer" id="uniqueTitleId">

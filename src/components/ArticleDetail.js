@@ -11,7 +11,6 @@ function ArticleDetail() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("el que llega nashe es ", articleId)
     fetch(`https://newsbotv2.ngrok.io/api/get/article?article_id=${articleId}`)
       .then((response) => {
         if (!response.ok) {
